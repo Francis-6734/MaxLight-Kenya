@@ -1,0 +1,145 @@
+import type { Category } from "./types";
+
+export const categories: Category[] = [
+  {
+    id: "lighting",
+    name: "Lighting",
+    slug: "lighting",
+    description: "Chandeliers, pendants, LED and smart lighting for every room.",
+    placeholder: { gradient: "from-amber-200 via-amber-50 to-white", icon: "Lightbulb" },
+    subcategories: [
+      { name: "Chandeliers", slug: "chandeliers" },
+      { name: "Pendant Lights", slug: "pendant-lights" },
+      { name: "Wall Lights", slug: "wall-lights" },
+      { name: "Ceiling Lights", slug: "ceiling-lights" },
+      { name: "LED Lights", slug: "led-lights" },
+      { name: "Garden & Solar Lights", slug: "garden-solar-lights" },
+      { name: "Smart Lighting", slug: "smart-lighting" },
+    ],
+  },
+  {
+    id: "furniture",
+    name: "Furniture",
+    slug: "furniture",
+    description: "Sofas, beds, dining sets and office furniture built to last.",
+    placeholder: { gradient: "from-stone-300 via-stone-100 to-white", icon: "Sofa" },
+    subcategories: [
+      { name: "Sofas", slug: "sofas" },
+      { name: "Beds", slug: "beds" },
+      { name: "Wardrobes", slug: "wardrobes" },
+      { name: "Dining Sets", slug: "dining-sets" },
+      { name: "Coffee Tables", slug: "coffee-tables" },
+      { name: "TV Stands", slug: "tv-stands" },
+      { name: "Office Furniture", slug: "office-furniture" },
+    ],
+  },
+  {
+    id: "electronics",
+    name: "Electronics",
+    slug: "electronics",
+    description: "Smart TVs, home theatre, cooling and kitchen appliances.",
+    placeholder: { gradient: "from-slate-800 via-slate-600 to-slate-400", icon: "Tv" },
+    subcategories: [
+      { name: "Smart TVs", slug: "smart-tvs" },
+      { name: "Home Theatre", slug: "home-theatre" },
+      { name: "Air Conditioners", slug: "air-conditioners" },
+      { name: "Refrigerators", slug: "refrigerators" },
+      { name: "Washing Machines", slug: "washing-machines" },
+    ],
+  },
+  {
+    id: "kitchen",
+    name: "Kitchen",
+    slug: "kitchen",
+    description: "Cabinets, sinks, water purifiers and kitchen accessories.",
+    placeholder: { gradient: "from-emerald-100 via-stone-50 to-white", icon: "CookingPot" },
+    subcategories: [
+      { name: "Cabinets", slug: "cabinets" },
+      { name: "Cookers", slug: "cookers" },
+      { name: "Sinks", slug: "sinks" },
+      { name: "Water Purifiers", slug: "water-purifiers" },
+    ],
+  },
+  {
+    id: "bathroom",
+    name: "Bathroom",
+    slug: "bathroom",
+    description: "Mirrors, vanity units, bathtubs and water heaters.",
+    placeholder: { gradient: "from-sky-100 via-slate-50 to-white", icon: "ShowerHead" },
+    subcategories: [
+      { name: "Mirrors", slug: "mirrors" },
+      { name: "Vanity Units", slug: "vanity-units" },
+      { name: "Bathtubs & Showers", slug: "bathtubs-showers" },
+      { name: "Water Heaters", slug: "water-heaters" },
+    ],
+  },
+  {
+    id: "wall-decor",
+    name: "Wall Décor",
+    slug: "wall-decor",
+    description: "Wall art, mirrors, wallpaper and 3D wall panels.",
+    placeholder: { gradient: "from-rose-100 via-stone-50 to-white", icon: "Frame" },
+    subcategories: [
+      { name: "Wall Art & Canvas", slug: "wall-art-canvas" },
+      { name: "Mirrors", slug: "wall-mirrors" },
+      { name: "Wallpaper", slug: "wallpaper" },
+      { name: "3D Wall Panels", slug: "3d-wall-panels" },
+    ],
+  },
+  {
+    id: "window-solutions",
+    name: "Window Solutions",
+    slug: "window-solutions",
+    description: "Curtains, blinds, sheers and motorized curtain systems.",
+    placeholder: { gradient: "from-orange-100 via-amber-50 to-white", icon: "PanelTop" },
+    subcategories: [
+      { name: "Curtains", slug: "curtains" },
+      { name: "Blinds", slug: "blinds" },
+      { name: "Sheers", slug: "sheers" },
+      { name: "Motorized Curtains", slug: "motorized-curtains" },
+    ],
+  },
+  {
+    id: "flooring",
+    name: "Flooring",
+    slug: "flooring",
+    description: "Wood, tiles, vinyl, carpets and artificial grass.",
+    placeholder: { gradient: "from-yellow-100 via-stone-100 to-white", icon: "SquareStack" },
+    subcategories: [
+      { name: "Wood", slug: "wood" },
+      { name: "Tiles", slug: "tiles" },
+      { name: "Carpets & Rugs", slug: "carpets-rugs" },
+      { name: "Artificial Grass", slug: "artificial-grass" },
+    ],
+  },
+  {
+    id: "security",
+    name: "Security",
+    slug: "security",
+    description: "Smart locks, CCTV, alarm systems and access control.",
+    placeholder: { gradient: "from-neutral-800 via-neutral-600 to-neutral-400", icon: "ShieldCheck" },
+    subcategories: [
+      { name: "Smart Locks", slug: "smart-locks" },
+      { name: "CCTV", slug: "cctv" },
+      { name: "Alarm Systems", slug: "alarm-systems" },
+      { name: "Video Doorbells", slug: "video-doorbells" },
+    ],
+  },
+  {
+    id: "smart-home",
+    name: "Smart Home",
+    slug: "smart-home",
+    description: "Smart switches, speakers, cameras and home automation.",
+    placeholder: { gradient: "from-indigo-200 via-indigo-50 to-white", icon: "Home" },
+    subcategories: [
+      { name: "Smart Switches", slug: "smart-switches" },
+      { name: "Smart Speakers", slug: "smart-speakers" },
+      { name: "Smart Cameras", slug: "smart-cameras" },
+      { name: "Home Automation", slug: "home-automation" },
+    ],
+  },
+];
+
+export function getCategoryBySlug(slug: string) {
+  return categories.find((c) => c.slug === slug);
+}

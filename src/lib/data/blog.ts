@@ -1,0 +1,110 @@
+import type { BlogPost } from "./types";
+
+export const blogPosts: BlogPost[] = [
+  {
+    id: "blog-lighting-layers",
+    slug: "the-three-layers-of-lighting-every-room-needs",
+    title: "The Three Layers of Lighting Every Room Needs",
+    excerpt:
+      "Ambient, task and accent lighting — here's how professional designers combine all three to make a room feel finished.",
+    category: "Lighting Guides",
+    author: "Brian Otieno",
+    date: "2026-06-18",
+    readTime: "6 min read",
+    placeholder: { gradient: "from-amber-100 via-stone-50 to-white", icon: "Lightbulb" },
+    body: [
+      "Most rooms that feel 'unfinished' aren't missing décor — they're missing layers of light. A single ceiling fixture, however beautiful, can only do so much. Professional lighting design works with three distinct layers: ambient, task and accent, each doing a different job.",
+      "Ambient lighting is your foundation — the general illumination that lets you move safely and comfortably through a space, usually from ceiling fixtures, chandeliers or recessed downlights. Task lighting is functional and directional: reading lamps beside a sofa, pendant lights over a kitchen island, or under-cabinet strips for food prep. Accent lighting is where the mood happens — wall washers on artwork, LED strips behind a TV unit, or a statement floor lamp in a reading corner.",
+      "The mistake most homeowners make is relying on ambient light alone, which flattens a room and makes it feel like a showroom rather than a home. Start by identifying the activities that happen in each space, then layer light around them. A living room might need soft ambient light from a chandelier, task lighting from two table lamps, and accent lighting highlighting a piece of art or a bookshelf.",
+      "When in doubt, dim it. Almost every fixture in your home should sit on a dimmer or smart switch — the same room can then serve as a bright, energetic space during the day and a calm, warm retreat in the evening, without buying a single new fixture.",
+    ],
+  },
+  {
+    id: "blog-small-kitchen",
+    slug: "designing-a-luxury-kitchen-in-a-small-space",
+    title: "Designing a Luxury Kitchen in a Small Space",
+    excerpt: "You don't need a huge floor plan for a luxury kitchen. Here's how our designers make small kitchens feel premium.",
+    category: "Kitchen Inspiration",
+    author: "Cynthia Wanjiru",
+    date: "2026-05-30",
+    readTime: "5 min read",
+    placeholder: { gradient: "from-emerald-100 via-stone-50 to-white", icon: "CookingPot" },
+    body: [
+      "Luxury in a kitchen has very little to do with square footage. Some of the most striking kitchens we've designed at MaxLight are under 10 square metres — the difference comes down to material choices, lighting and how ruthlessly the layout is planned.",
+      "Start with a single, high-quality material moment rather than spreading a small budget thin. A quartz waterfall countertop or a bold handleless cabinet finish reads as premium even in a tight galley kitchen. Keep the rest of the palette quiet — two tones, maximum three — so the eye has a clear focal point instead of visual noise.",
+      "Storage is the second lever. Fitted cabinetry with soft-close drawers, vertical dividers and corner carousels lets a small kitchen hold as much as a larger, poorly organised one — and it looks calmer because nothing sits on the counter. Under-cabinet lighting and a well-placed pendant over the sink or island do the rest, making the room feel considered rather than cramped.",
+      "Finally, mirror finishes and glass-front cabinets bounce light around a compact kitchen, visually pushing the walls outward. Combined with a warm, dimmable lighting scheme, a small kitchen can feel every bit as luxurious as a much larger one.",
+    ],
+  },
+  {
+    id: "blog-smart-home-2026",
+    slug: "smart-home-essentials-for-kenyan-homes-in-2026",
+    title: "Smart Home Essentials for Kenyan Homes in 2026",
+    excerpt: "From smart locks to solar-backed automation, here's where to start when building a smart home in Kenya.",
+    category: "Smart Home Articles",
+    author: "Brian Otieno",
+    date: "2026-05-12",
+    readTime: "7 min read",
+    placeholder: { gradient: "from-indigo-100 via-stone-50 to-white", icon: "Home" },
+    body: [
+      "Smart home adoption in Kenya has moved well past novelty gadgets — for many of our clients, it's now a practical answer to security, power reliability and convenience all at once. The right starting point depends on what problem you're solving first.",
+      "If security is the priority, start with a smart lock, video doorbell and a CCTV system tied to a mobile app, so you can see and control access to your home from anywhere. Add motion-sensor lighting around entry points — it's a small addition that meaningfully improves both safety and energy efficiency.",
+      "For convenience, smart switches and a voice-controlled speaker hub let you retrofit an existing home without rewiring — most of our installations are complete in under a day. Layer in smart plugs and lighting scenes, and a home can automatically shift from a bright 'morning' setting to a warm 'evening' one without you touching a switch.",
+      "Because power interruptions are still a reality in much of Kenya, we recommend pairing any serious smart home investment with a solar backup or inverter system, so your security cameras and locks stay online even during an outage. It's the difference between a smart home that impresses guests and one you can actually rely on.",
+    ],
+  },
+  {
+    id: "blog-bedroom-colours",
+    slug: "choosing-the-right-colour-palette-for-your-bedroom",
+    title: "Choosing the Right Colour Palette for Your Bedroom",
+    excerpt: "Colour psychology matters more in the bedroom than anywhere else in the house. Here's our designers' framework.",
+    category: "Bedroom Inspiration",
+    author: "Amina Hassan",
+    date: "2026-04-22",
+    readTime: "4 min read",
+    placeholder: { gradient: "from-rose-100 via-stone-50 to-white", icon: "Palette" },
+    body: [
+      "The bedroom is the one room in the house that has to do less, not more. Where a living room can carry bold colour and pattern, a bedroom generally rewards restraint — its job is to help you switch off.",
+      "Our default framework is a muted, warm neutral base — soft beiges, greiges or gentle clay tones — layered with one deeper accent colour used sparingly, in a piece of wall art, a mirror frame or a single accent wall. Cooler blues and greens work well for those who want a more restful, spa-like feel, but should lean muted rather than saturated to avoid feeling cold at night.",
+      "Texture matters as much as colour in a neutral scheme — a woven wall hanging, a textured wall panel, warm layered lighting — these add depth without introducing more colour to compete with rest. Save your most saturated, energising colours for spaces you pass through, not the one you fall asleep in.",
+    ],
+  },
+  {
+    id: "blog-office-design",
+    slug: "building-a-home-office-that-actually-gets-you-working",
+    title: "Building a Home Office That Actually Gets You Working",
+    excerpt: "Ergonomics, lighting and layout tips for a home office that supports focus, not distraction.",
+    category: "Office Design",
+    author: "Daniel Kiptoo",
+    date: "2026-03-15",
+    readTime: "5 min read",
+    placeholder: { gradient: "from-neutral-200 via-stone-50 to-white", icon: "Table2" },
+    body: [
+      "A home office that looks good in photos but leaves you slouched by 11am has failed at its actual job. We start every home office project with ergonomics, then layer the design on top — not the other way around.",
+      "Desk height, monitor position and chair support are non-negotiable. Your monitor's top edge should sit roughly at eye level, and your chair should let your feet rest flat with knees at about 90 degrees. If budget only stretches to one investment piece, make it the chair.",
+      "Lighting should come from the side, not directly behind or in front of your screen, to avoid glare and eye strain — a task lamp with adjustable warmth is worth more than an expensive desk. Position the desk to face a wall or window rather than a doorway if you're prone to distraction, and keep visual clutter off the wall directly in your eyeline.",
+      "Finally, define a hard boundary between the office and the rest of the home, even in a studio apartment — a screen, a bookshelf, or simply a rug that marks the 'work zone' — so your brain learns to switch modes when you sit down.",
+    ],
+  },
+  {
+    id: "blog-renovation-budget",
+    slug: "how-to-budget-for-a-full-home-renovation-in-kenya",
+    title: "How to Budget for a Full Home Renovation in Kenya",
+    excerpt: "A realistic breakdown of what lighting, décor, electronics and installation actually cost — and how to plan for it.",
+    category: "Interior Tips",
+    author: "Daniel Kiptoo",
+    date: "2026-02-08",
+    readTime: "8 min read",
+    placeholder: { gradient: "from-stone-300 via-stone-100 to-white", icon: "Ruler" },
+    body: [
+      "The single biggest cause of renovation stress isn't the work itself — it's an unrealistic budget set before anyone has actually priced the project. Before you commit to a scope, it helps to understand where the money typically goes.",
+      "As a rough guide across our projects, lighting typically accounts for 20–30% of a full room renovation budget, electronics and smart home systems 25–35%, wall décor and finishing touches 10–15%, and installation/labour 20–30%, with the remainder held back as contingency. Contingency matters more than people expect — we recommend holding back at least 10% of the total budget for the inevitable surprises behind walls and under floors.",
+      "Sequencing also affects cost. Structural and electrical work should always be finalised before lighting and finishes are chosen, since changes later are far more expensive to accommodate. Where budgets are tight, we advise clients to spend on what's hardest to change later — electrical wiring, fitted cabinetry, structural lighting points — and treat decorative accents as the layer you can upgrade over time.",
+      "Our Room Cost Estimator tool gives you a realistic starting figure in minutes, broken down by category, so you can plan a phased renovation with confidence instead of guessing.",
+    ],
+  },
+];
+
+export function getBlogPostBySlug(slug: string) {
+  return blogPosts.find((p) => p.slug === slug);
+}

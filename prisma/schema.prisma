@@ -1,0 +1,260 @@
+// MaxLight Kenya — Prisma schema
+// Postgres hosted on Supabase (see DATABASE_URL in .env — uses the Supavisor
+// connection pooler since this environment only has IPv4 egress and
+// Supabase's direct connection host is IPv6-only).
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ---------- Auth (Supabase Auth) ----------
+
+/// Mirrors a Supabase `auth.users` row 1:1 — `id` is the same UUID Supabase
+/// assigns, inserted here right after signup. Supabase owns credentials,
+/// sessions and email verification; this table only holds the app-specific
+/// profile data (role, display name) that Supabase's auth schema doesn't.
+model User {
+  id        String   @id
+  name      String?
+  email     String   @unique
+  role      String   @default("CUSTOMER")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  orders    Order[]
+  addresses Address[]
+  reviews   Review[]
+}
+
+// ---------- Catalog ----------
+
+model Category {
+  id          String  @id @default(cuid())
+  slug        String  @unique
+  name        String
+  description String
+  gradient    String
+  icon        String
+  /// Uploaded photo, takes visual precedence over gradient/icon when set
+  imageUrl    String?
+  /// Unpublished categories (and their products) are hidden from the storefront
+  /// but stay in the admin so the catalog can be re-enabled later.
+  published   Boolean @default(true)
+
+  products Product[]
+}
+
+model Product {
+  /// Matches the static id used by the frontend mock catalog (e.g. "p-sofa-serengeti")
+  /// so cart/wishlist/compare localStorage state maps 1:1 onto real DB rows.
+  id                String   @id
+  slug              String   @unique
+  name              String
+  description       String
+  categoryId        String
+  subcategory       String
+  brand             String
+  price             Int
+  compareAtPrice    Int?
+  currency          String   @default("KES")
+  rating            Float    @default(0)
+  reviewCount       Int      @default(0)
+  /// Comma-separated room slugs, e.g. "living-room,bedroom"
+  rooms             String   @default("")
+  /// Comma-separated style slugs, e.g. "modern,luxury"
+  styles            String   @default("")
+  /// Newline-separated highlight bullets
+  highlights        String   @default("")
+  inStock           Boolean  @default(true)
+  isNew             Boolean  @default(false)
+  isFeatured        Boolean  @default(false)
+  placeholderGrad   String
+  placeholderIcon   String
+  /// Uploaded photos, in display order. First one is the "primary" photo used
+  /// on cards/cart/etc; the full list powers the product-page gallery. Falls
+  /// back to placeholderGrad/Icon when empty.
+  images            String[] @default([])
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  category   Category    @relation(fields: [categoryId], references: [id])
+  orderItems OrderItem[]
+  reviews    Review[]
+}
+
+// ---------- Commerce ----------
+
+model Address {
+  id        String   @id @default(cuid())
+  userId    String
+  label     String
+  line1     String
+  city      String
+  phone     String
+  isDefault Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Order {
+  id              String   @id @default(cuid())
+  userId          String
+  status          String   @default("PENDING") // PENDING | PAID | SHIPPED | DELIVERED | CANCELLED
+  subtotal        Int
+  deliveryFee     Int      @default(0)
+  total           Int
+  currency        String   @default("KES")
+  paymentMethod   String? // MPESA | CARD | BANK_TRANSFER
+  paymentReference String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  user  User        @relation(fields: [userId], references: [id])
+  items OrderItem[]
+}
+
+model OrderItem {
+  id        String @id @default(cuid())
+  orderId   String
+  productId String
+  quantity  Int
+  price     Int // snapshot of product price at time of order
+
+  order   Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id])
+}
+
+model Review {
+  id        String   @id @default(cuid())
+  productId String
+  userId    String
+  rating    Int
+  comment   String
+  createdAt DateTime @default(now())
+
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// ---------- Site-wide content (CMS) ----------
+
+/// Singleton row (id is always "singleton") holding every global text/link
+/// that used to be hardcoded in header/footer components.
+model SiteSettings {
+  id                String   @id @default("singleton")
+  siteName          String   @default("MaxLight Kenya")
+  tagline           String   @default("Masters in Home & Interiors")
+  announcementText  String   @default("Masters in Home & Interiors — Free consultation on projects above KES 200,000.")
+  announcementLinkLabel String @default("Book now")
+  announcementLinkHref  String @default("/book-consultation")
+  phone             String   @default("+254 700 000 000")
+  email             String   @default("hello@maxlightkenya.com")
+  address           String   @default("Mombasa Road, Nairobi, Kenya")
+  footerDescription String   @default("Masters in Home & Interiors. Everything your home deserves, under one roof — lighting, electronics, décor, smart home and complete interior design services across Kenya.")
+  facebookUrl       String   @default("")
+  instagramUrl      String   @default("")
+  tiktokUrl         String   @default("")
+  pinterestUrl      String   @default("")
+  youtubeUrl        String   @default("")
+  linkedinUrl       String   @default("")
+  xUrl              String   @default("")
+  seoTitle          String   @default("MaxLight Kenya — Masters in Home & Interiors")
+  seoDescription    String   @default("MaxLight Kenya (MaxLight Electronic) is East Africa's premium home interior destination — lighting, electronics, décor, smart home and complete interior design & installation services.")
+  seoKeywords       String   @default("MaxLight Kenya,home interior Kenya,lighting Kenya,interior design Nairobi,smart home Kenya")
+  updatedAt         DateTime @updatedAt
+}
+
+model FooterLink {
+  id        String @id @default(cuid())
+  /// "shop" | "company" | "customer-care" | "legal"
+  column    String
+  label     String
+  href      String
+  sortOrder Int    @default(0)
+}
+
+model BlogPost {
+  id         String   @id @default(cuid())
+  slug       String   @unique
+  title      String
+  excerpt    String
+  /// Paragraphs joined with "\n\n"
+  body       String
+  category   String
+  author     String
+  readTime   String   @default("5 min read")
+  gradient   String
+  icon       String
+  imageUrl   String?
+  published  Boolean  @default(true)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Project {
+  id                String   @id @default(cuid())
+  slug              String   @unique
+  title             String
+  category          String
+  location          String
+  completionDate    String
+  /// Comma-separated
+  servicesDelivered String
+  clientTestimonial String?
+  clientName        String?
+  gradient          String
+  icon              String
+  imageUrl          String?
+  published         Boolean  @default(true)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+
+model Designer {
+  id             String   @id @default(cuid())
+  slug           String   @unique
+  name           String
+  position       String
+  experience     String
+  specialization String
+  bio            String
+  /// Comma-separated
+  languages      String
+  gradient       String
+  icon           String
+  imageUrl       String?
+  published      Boolean  @default(true)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model HeroSlide {
+  id                String  @id @default(cuid())
+  eyebrow           String  @default("Masters in Home & Interiors")
+  headline          String
+  subtitle          String
+  primaryCtaLabel   String  @default("Shop Now")
+  primaryCtaHref    String  @default("/shop")
+  secondaryCtaLabel String  @default("Book Consultation")
+  secondaryCtaHref  String  @default("/book-consultation")
+  gradient          String
+  icon              String
+  imageUrl          String?
+  sortOrder         Int     @default(0)
+  published         Boolean @default(true)
+}
+
+/// Editable eyebrow/title/description for each fixed homepage section.
+/// id is a fixed key, e.g. "category-showcase", "shop-by-room".
+model HomeSection {
+  id          String @id
+  eyebrow     String
+  title       String
+  description String
+}
