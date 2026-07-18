@@ -9,9 +9,14 @@ export const metadata: Metadata = {
 };
 
 const info = [
-  { icon: MapPin, label: "Showroom", value: "Mombasa Road, Nairobi, Kenya" },
-  { icon: Phone, label: "Phone", value: "+254 700 000 000" },
-  { icon: Mail, label: "Email", value: "hello@maxlightkenya.com" },
+  {
+    icon: MapPin,
+    label: "Showroom",
+    value:
+      "Along Kamakis Bypass, Capital One Plaza, Next to Quickmart Supermarket, Nairobi, Kenya",
+  },
+  { icon: Phone, label: "Phone", value: "+254 712 999 191" },
+  { icon: Mail, label: "Email", value: "maxlightelectronics@gmail.com" },
   { icon: Clock, label: "Hours", value: "Mon – Sat, 8:00am – 6:00pm" },
 ];
 
