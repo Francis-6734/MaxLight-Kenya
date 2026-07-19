@@ -77,13 +77,13 @@ export function SiteHeader({
 
         <Link
           href="/"
-          className="mr-2 flex shrink-0 items-center gap-2 font-heading text-2xl tracking-tight lg:mr-6"
+          className="mr-2 flex shrink-0 items-center gap-2 font-heading text-2xl tracking-tight xl:mr-6"
         >
           <Image src="/logo-icon.png" alt="MaxLight" width={36} height={36} className="rounded-lg" priority />
           Max<span className="text-gold">Light</span>
         </Link>
 
-        <nav className="hidden items-center gap-1 lg:flex">
+        <nav className="hidden items-center gap-1 xl:flex">
           {MEGA_TRIGGERS.map((item) => (
             <button
               key={item.key}
@@ -144,7 +144,7 @@ export function SiteHeader({
 
           <Link
             href="/book-consultation"
-            className={cn(buttonVariants({ size: "lg" }), "ml-2 hidden bg-foreground lg:inline-flex")}
+            className={cn(buttonVariants({ size: "lg" }), "ml-2 hidden bg-foreground xl:inline-flex")}
           >
             Book Consultation
           </Link>

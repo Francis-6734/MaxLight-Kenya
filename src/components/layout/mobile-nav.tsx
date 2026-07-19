@@ -18,7 +18,7 @@ export function MobileNav({ categories }: { categories: Category[] }) {
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger
         aria-label="Open menu"
-        className="flex h-9 w-9 items-center justify-center rounded-full hover:bg-muted lg:hidden"
+        className="flex h-9 w-9 items-center justify-center rounded-full hover:bg-muted xl:hidden"
       >
         <Menu className="h-5 w-5" strokeWidth={1.5} />
       </SheetTrigger>

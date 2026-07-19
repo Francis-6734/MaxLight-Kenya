@@ -28,6 +28,7 @@ export function RoomHotspotImage({
         if (!product) return null;
         const isActive = activeId === product.id;
         const showAbove = h.y > 55;
+        const align = h.x < 25 ? "left" : h.x > 75 ? "right" : "center";
 
         return (
           <div key={h.productId} style={{ left: `${h.x}%`, top: `${h.y}%` }} className="absolute -translate-x-1/2 -translate-y-1/2">
@@ -45,8 +46,11 @@ export function RoomHotspotImage({
             {isActive && (
               <div
                 className={cn(
-                  "absolute left-1/2 z-20 w-56 -translate-x-1/2 rounded-xl bg-white p-3 text-left shadow-xl ring-1 ring-black/5",
-                  showAbove ? "bottom-full mb-3" : "top-full mt-3"
+                  "absolute z-20 w-56 rounded-xl bg-white p-3 text-left shadow-xl ring-1 ring-black/5",
+                  showAbove ? "bottom-full mb-3" : "top-full mt-3",
+                  align === "center" && "left-1/2 -translate-x-1/2",
+                  align === "left" && "left-0",
+                  align === "right" && "right-0"
                 )}
               >
                 <div className="flex gap-3">

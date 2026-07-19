@@ -3,6 +3,7 @@ import { ShieldAlert } from "lucide-react";
 import { getCurrentUser } from "@/lib/auth/current-user";
 import { ROLE_LABELS, isStaffRole } from "@/lib/auth/roles";
 import { AdminSidebar } from "@/components/admin/admin-sidebar";
+import { AdminMobileNav } from "@/components/admin/admin-mobile-nav";
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const user = await getCurrentUser();
@@ -24,9 +25,18 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   }
 
   return (
-    <div className="flex">
+    <div className="flex min-h-screen flex-col lg:flex-row">
       <AdminSidebar name={user.name ?? user.email} roleLabel={ROLE_LABELS[role]} />
-      <main className="min-h-screen flex-1 overflow-x-hidden p-6 sm:p-8">{children}</main>
+      <div className="flex min-h-screen flex-1 flex-col">
+        <header className="flex items-center gap-3 border-b border-border bg-background p-4 lg:hidden">
+          <AdminMobileNav name={user.name ?? user.email} roleLabel={ROLE_LABELS[role]} />
+          <span className="font-heading text-lg">
+            Max<span className="text-gold">Light</span>{" "}
+            <span className="font-sans text-sm font-normal text-muted-foreground">Admin</span>
+          </span>
+        </header>
+        <main className="flex-1 overflow-x-hidden p-6 sm:p-8">{children}</main>
+      </div>
     </div>
   );
 }

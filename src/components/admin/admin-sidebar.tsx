@@ -19,7 +19,7 @@ import {
 import { signOutAction } from "@/lib/actions/auth-actions";
 import { cn } from "@/lib/utils";
 
-const NAV_ITEMS = [
+export const NAV_ITEMS = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
   { href: "/admin/products", label: "Products", icon: Package },
   { href: "/admin/categories", label: "Categories", icon: FolderTree },
@@ -36,7 +36,7 @@ export function AdminSidebar({ name, roleLabel }: { name: string; roleLabel: str
   const pathname = usePathname();
 
   return (
-    <aside className="flex h-screen w-64 shrink-0 flex-col border-r border-border bg-background">
+    <aside className="hidden h-screen w-64 shrink-0 flex-col border-r border-border bg-background lg:flex">
       <div className="border-b border-border p-5">
         <Link href="/admin" className="font-heading text-xl">
           Max<span className="text-gold">Light</span>
