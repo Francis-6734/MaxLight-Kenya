@@ -13,13 +13,10 @@ import { signInAction, type SignInState } from "@/lib/actions/auth-actions";
 
 const initialState: SignInState = {};
 
-function OAuthError() {
-  const searchParams = useSearchParams();
-  const error = searchParams.get("error");
-  return error ? <p className="text-sm text-destructive">{error}</p> : null;
-}
-
 function SignInForm() {
+  const searchParams = useSearchParams();
+  const oauthError = searchParams.get("error");
+  const callbackUrl = searchParams.get("callbackUrl") ?? undefined;
   const [state, formAction, pending] = useActionState(signInAction, initialState);
 
   return (
@@ -30,7 +27,7 @@ function SignInForm() {
       </div>
 
       <div className="mt-8">
-        <SocialAuthButtons />
+        <SocialAuthButtons callbackUrl={callbackUrl} />
       </div>
 
       <div className="my-6 flex items-center gap-3">
@@ -40,6 +37,7 @@ function SignInForm() {
       </div>
 
       <form action={formAction} className="space-y-4">
+        {callbackUrl && <input type="hidden" name="callbackUrl" value={callbackUrl} />}
         <div className="space-y-1.5">
           <Label htmlFor="email">Email</Label>
           <Input id="email" name="email" type="email" required placeholder="jane@example.com" />
@@ -49,9 +47,7 @@ function SignInForm() {
           <Input id="password" name="password" type="password" required placeholder="••••••••" />
         </div>
         {state.error && <p className="text-sm text-destructive">{state.error}</p>}
-        <Suspense>
-          <OAuthError />
-        </Suspense>
+        {oauthError && <p className="text-sm text-destructive">{oauthError}</p>}
         <Button type="submit" size="lg" className="h-11 w-full" disabled={pending}>
           {pending ? "Signing in..." : "Sign In"}
         </Button>
@@ -68,5 +64,9 @@ function SignInForm() {
 }
 
 export default function SignInPage() {
-  return <SignInForm />;
+  return (
+    <Suspense>
+      <SignInForm />
+    </Suspense>
+  );
 }

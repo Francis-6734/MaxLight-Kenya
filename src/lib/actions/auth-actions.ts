@@ -5,6 +5,14 @@ import { headers } from "next/headers";
 import { z } from "zod";
 import { createClient } from "@/lib/supabase/server";
 import { db } from "@/lib/db";
+import { Prisma } from "@/generated/prisma/client";
+
+const ALREADY_REGISTERED_ERROR = "An account with this email already exists. Please sign in instead.";
+
+/** Only ever redirect to a same-origin path — never follow an attacker-supplied absolute/external callbackUrl. */
+function safeCallbackUrl(value: FormDataEntryValue | null, fallback: string): string {
+  return typeof value === "string" && value.startsWith("/") && !value.startsWith("//") ? value : fallback;
+}
 
 const signUpSchema = z.object({
   name: z.string().min(2, "Please enter your full name"),
@@ -34,7 +42,23 @@ export async function signUpAction(_prevState: SignUpState, formData: FormData):
   if (error) return { error: error.message };
   if (!data.user) return { error: "Could not create account. Please try again." };
 
-  await db.user.create({ data: { id: data.user.id, name, email, role: "CUSTOMER" } });
+  // When the email is already registered, Supabase returns the existing user
+  // with an empty `identities` array and no error, instead of an error — this
+  // is deliberate on their end (prevents leaking which emails have accounts),
+  // but we still need to catch it before inserting or it hits our unique
+  // constraint on User.email and crashes the request.
+  if (data.user.identities && data.user.identities.length === 0) {
+    return { error: ALREADY_REGISTERED_ERROR };
+  }
+
+  try {
+    await db.user.create({ data: { id: data.user.id, name, email, role: "CUSTOMER" } });
+  } catch (e) {
+    if (e instanceof Prisma.PrismaClientKnownRequestError && e.code === "P2002") {
+      return { error: ALREADY_REGISTERED_ERROR };
+    }
+    throw e;
+  }
 
   if (!data.session) {
     // Project has "confirm email" enabled — no session yet until they click the link.
@@ -64,7 +88,7 @@ export async function signInAction(_prevState: SignInState, formData: FormData):
   const { error } = await supabase.auth.signInWithPassword(parsed.data);
   if (error) return { error: "Invalid email or password" };
 
-  redirect("/account/dashboard");
+  redirect(safeCallbackUrl(formData.get("callbackUrl"), "/account/dashboard"));
 }
 
 export async function signOutAction() {
@@ -80,13 +104,14 @@ export async function signOutAction() {
  * consent-screen URL and sends the browser there. Completion happens in
  * src/app/auth/callback/route.ts once the provider redirects back.
  */
-export async function signInWithOAuthAction(provider: "google" | "facebook") {
+export async function signInWithOAuthAction(provider: "google" | "facebook", formData: FormData) {
   const supabase = await createClient();
   const origin = (await headers()).get("origin") ?? "";
+  const next = safeCallbackUrl(formData.get("callbackUrl"), "/account/dashboard");
 
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider,
-    options: { redirectTo: `${origin}/auth/callback` },
+    options: { redirectTo: `${origin}/auth/callback?next=${encodeURIComponent(next)}` },
   });
 
   if (error || !data.url) {
