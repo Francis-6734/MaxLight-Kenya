@@ -296,7 +296,7 @@ async function main() {
 
   console.log("Seeding demo users...");
   const demoUsers: { name: string; email: string; password: string; role: string }[] = [
-    { name: "Grace Njoroge", email: "admin@maxlightkenya.com", password: "admin1234", role: "SUPER_ADMIN" },
+    { name: "MaxLight Manager", email: "admin@maxlightkenya.com", password: "admin1234", role: "SUPER_ADMIN" },
     { name: "Amina Hassan", email: "designer@maxlightkenya.com", password: "designer1234", role: "INTERIOR_DESIGNER" },
     { name: "Jane Wanjiru", email: "customer@maxlightkenya.com", password: "customer1234", role: "CUSTOMER" },
   ];
