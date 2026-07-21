@@ -15,6 +15,7 @@ import {
   Contact,
   Image as ImageIcon,
   Settings,
+  Mail,
 } from "lucide-react";
 import { signOutAction } from "@/lib/actions/auth-actions";
 import { cn } from "@/lib/utils";
@@ -24,6 +25,7 @@ export const NAV_ITEMS = [
   { href: "/admin/products", label: "Products", icon: Package },
   { href: "/admin/categories", label: "Categories", icon: FolderTree },
   { href: "/admin/orders", label: "Orders", icon: ShoppingCart },
+  { href: "/admin/messages", label: "Messages", icon: Mail },
   { href: "/admin/customers", label: "Customers", icon: Users },
   { href: "/admin/homepage", label: "Homepage", icon: ImageIcon },
   { href: "/admin/blog", label: "Blog", icon: Newspaper },

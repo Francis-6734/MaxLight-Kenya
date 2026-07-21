@@ -258,3 +258,17 @@ model HomeSection {
   title       String
   description String
 }
+
+/// Submissions from the public Contact page. Always saved here first so a
+/// message is never lost even if outbound email isn't configured — see
+/// sendContactNotificationEmail in contact-actions.ts.
+model ContactMessage {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  phone     String  @default("")
+  subject   String
+  message   String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
