@@ -166,13 +166,13 @@ export async function updatePasswordAction(
 }
 
 /**
- * Kicks off the OAuth redirect (Google/Facebook). The actual Client ID/Secret
- * for each provider live in the Supabase dashboard (Authentication →
- * Providers), not in this app — this just asks Supabase for the provider's
- * consent-screen URL and sends the browser there. Completion happens in
- * src/app/auth/callback/route.ts once the provider redirects back.
+ * Kicks off the Google OAuth redirect. The actual Client ID/Secret live in
+ * the Supabase dashboard (Authentication → Providers), not in this app —
+ * this just asks Supabase for Google's consent-screen URL and sends the
+ * browser there. Completion happens in src/app/auth/callback/route.ts once
+ * Google redirects back.
  */
-export async function signInWithOAuthAction(provider: "google" | "facebook", formData: FormData) {
+export async function signInWithOAuthAction(provider: "google", formData: FormData) {
   const supabase = await createClient();
   const origin = (await headers()).get("origin") ?? "";
   const next = safeCallbackUrl(formData.get("callbackUrl"), "/account/dashboard");
