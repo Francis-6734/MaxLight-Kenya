@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { Fraunces, Inter, Geist_Mono } from "next/font/google";
 import "../globals.css";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Toaster } from "@/components/ui/sonner";
+import { AuthErrorToast } from "@/components/auth/auth-error-toast";
 import { SiteHeader } from "@/components/layout/site-header";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { WhatsAppFloat } from "@/components/layout/whatsapp-float";
@@ -90,6 +92,9 @@ export default async function RootLayout({
                   <WhatsAppFloat />
                   <AiAssistant />
                   <Toaster position="bottom-right" />
+                  <Suspense>
+                    <AuthErrorToast />
+                  </Suspense>
                 </CompareProvider>
               </WishlistProvider>
             </CartProvider>

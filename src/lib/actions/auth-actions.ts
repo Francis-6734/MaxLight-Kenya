@@ -38,7 +38,12 @@ export async function signUpAction(_prevState: SignUpState, formData: FormData):
   const { name, email, password } = parsed.data;
 
   const supabase = await createClient();
-  const { data, error } = await supabase.auth.signUp({ email, password, options: { data: { name } } });
+  const origin = (await headers()).get("origin") ?? "";
+  const { data, error } = await supabase.auth.signUp({
+    email,
+    password,
+    options: { data: { name }, emailRedirectTo: `${origin}/auth/callback` },
+  });
   if (error) return { error: error.message };
   if (!data.user) return { error: "Could not create account. Please try again." };
 
@@ -95,6 +100,69 @@ export async function signOutAction() {
   const supabase = await createClient();
   await supabase.auth.signOut();
   redirect("/");
+}
+
+const forgotPasswordSchema = z.object({ email: z.string().email("Enter a valid email address") });
+
+export interface ForgotPasswordState {
+  error?: string;
+  success?: boolean;
+}
+
+export async function requestPasswordResetAction(
+  _prevState: ForgotPasswordState,
+  formData: FormData
+): Promise<ForgotPasswordState> {
+  const parsed = forgotPasswordSchema.safeParse({ email: formData.get("email") });
+  if (!parsed.success) return { error: parsed.error.issues[0]?.message ?? "Enter a valid email address" };
+
+  const supabase = await createClient();
+  const origin = (await headers()).get("origin") ?? "";
+
+  // Always report success regardless of whether the email exists — same
+  // enumeration-prevention reasoning Supabase applies to sign-up, and this
+  // call itself never errors just because the address isn't registered.
+  await supabase.auth.resetPasswordForEmail(parsed.data.email, {
+    redirectTo: `${origin}/auth/callback?next=${encodeURIComponent("/reset-password")}`,
+  });
+
+  return { success: true };
+}
+
+const resetPasswordSchema = z
+  .object({
+    password: z.string().min(6, "Password must be at least 6 characters"),
+    confirmPassword: z.string(),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
+  });
+
+export interface ResetPasswordState {
+  error?: string;
+}
+
+export async function updatePasswordAction(
+  _prevState: ResetPasswordState,
+  formData: FormData
+): Promise<ResetPasswordState> {
+  const parsed = resetPasswordSchema.safeParse({
+    password: formData.get("password"),
+    confirmPassword: formData.get("confirmPassword"),
+  });
+  if (!parsed.success) return { error: parsed.error.issues[0]?.message ?? "Invalid input" };
+
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return { error: "Your password reset link has expired. Please request a new one." };
+
+  const { error } = await supabase.auth.updateUser({ password: parsed.data.password });
+  if (error) return { error: error.message };
+
+  redirect("/account/dashboard");
 }
 
 /**

@@ -43,7 +43,12 @@ function SignInForm() {
           <Input id="email" name="email" type="email" required placeholder="jane@example.com" />
         </div>
         <div className="space-y-1.5">
-          <Label htmlFor="password">Password</Label>
+          <div className="flex items-center justify-between">
+            <Label htmlFor="password">Password</Label>
+            <Link href="/forgot-password" className="text-xs font-medium text-muted-foreground underline underline-offset-2 hover:text-foreground">
+              Forgot password?
+            </Link>
+          </div>
           <Input id="password" name="password" type="password" required placeholder="••••••••" />
         </div>
         {state.error && <p className="text-sm text-destructive">{state.error}</p>}

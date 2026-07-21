@@ -11,10 +11,17 @@ import { PrismaClient } from "@/generated/prisma/client";
 const globalForPrisma = globalThis as unknown as { prisma?: PrismaClient };
 
 function createPrismaClient() {
-  // Supabase's session-pooler connection limit is small (15 on this project) —
-  // cap the pool well under that so this single-process app leaves headroom
-  // for migrations, seed scripts, and the Supabase dashboard's own connections.
-  const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL, max: 5 });
+  // On Vercel every concurrent serverless invocation is its own isolated
+  // process with its own pool — globalForPrisma caching only helps within a
+  // single warm instance, not across them. DATABASE_URL must point at
+  // Supabase's Transaction Pooler (port 6543), not the Session Pooler (5432):
+  // session mode hands out one dedicated Postgres connection per client for
+  // its whole lifetime and hard-caps at pool_size, so a handful of concurrent
+  // instances blow past the limit (EMAXCONNSESSION). Transaction mode
+  // multiplexes many logical clients over a small number of real backend
+  // connections, which is what serverless needs. Keep `max` low per instance
+  // regardless — the pooling that matters happens in PgBouncer, not here.
+  const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL, max: 3 });
   return new PrismaClient({ adapter });
 }
 
