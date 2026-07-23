@@ -1,13 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useActionState } from "react";
 import { CalendarCheck, MapPin, Ruler, Sparkles, Upload } from "lucide-react";
-import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { submitConsultationRequestAction, type ConsultationFormState } from "@/lib/actions/consultation-actions";
 
 const CONSULTATION_TYPES = [
   "Interior Consultation",
@@ -36,10 +36,12 @@ const steps = [
   { icon: Sparkles, title: "Bring It to Life", desc: "We handle products, installation and project management." },
 ];
 
-export default function BookConsultationPage() {
-  const [submitted, setSubmitted] = useState(false);
+const initialState: ConsultationFormState = {};
 
-  if (submitted) {
+export default function BookConsultationPage() {
+  const [state, formAction, pending] = useActionState(submitConsultationRequestAction, initialState);
+
+  if (state.success) {
     return (
       <div className="container-max flex flex-col items-center justify-center gap-4 py-32 text-center">
         <span className="flex h-16 w-16 items-center justify-center rounded-full bg-gold/20">
@@ -49,9 +51,6 @@ export default function BookConsultationPage() {
         <p className="max-w-md text-muted-foreground">
           Thank you! Our design team will reach out within 24 hours to confirm your appointment.
         </p>
-        <Button variant="outline" onClick={() => setSubmitted(false)}>
-          Book Another Consultation
-        </Button>
       </div>
     );
   }
@@ -85,35 +84,29 @@ export default function BookConsultationPage() {
           </div>
         </div>
 
-        <form
-          className="rounded-2xl border border-border p-6 sm:p-8"
-          onSubmit={(e) => {
-            e.preventDefault();
-            setSubmitted(true);
-            toast.success("Consultation request submitted");
-          }}
-        >
+        <form action={formAction} className="rounded-2xl border border-border p-6 sm:p-8">
           <div className="grid gap-5 sm:grid-cols-2">
             <div className="space-y-1.5">
               <Label htmlFor="name">Full Name</Label>
-              <Input id="name" required placeholder="Jane Wanjiru" />
+              <Input id="name" name="name" required placeholder="Jane Wanjiru" />
             </div>
             <div className="space-y-1.5">
               <Label htmlFor="phone">Phone Number</Label>
-              <Input id="phone" required placeholder="+254 7XX XXX XXX" />
+              <Input id="phone" name="phone" required placeholder="+254 7XX XXX XXX" />
             </div>
             <div className="space-y-1.5 sm:col-span-2">
               <Label htmlFor="email">Email</Label>
-              <Input id="email" type="email" required placeholder="jane@example.com" />
+              <Input id="email" name="email" type="email" required placeholder="jane@example.com" />
             </div>
             <div className="space-y-1.5 sm:col-span-2">
               <Label htmlFor="location">Location</Label>
-              <Input id="location" required placeholder="e.g. Karen, Nairobi" />
+              <Input id="location" name="location" required placeholder="e.g. Karen, Nairobi" />
             </div>
 
             <div className="space-y-1.5">
               <Label>Consultation Type</Label>
               <Select
+                name="consultationType"
                 defaultValue={CONSULTATION_TYPES[0]}
                 items={Object.fromEntries(CONSULTATION_TYPES.map((t) => [t, t]))}
               >
@@ -132,6 +125,7 @@ export default function BookConsultationPage() {
             <div className="space-y-1.5">
               <Label>Project Type</Label>
               <Select
+                name="projectType"
                 defaultValue={PROJECT_TYPES[0]}
                 items={Object.fromEntries(PROJECT_TYPES.map((t) => [t, t]))}
               >
@@ -149,22 +143,22 @@ export default function BookConsultationPage() {
             </div>
 
             <div className="space-y-1.5">
-              <Label htmlFor="date">Preferred Date</Label>
-              <Input id="date" type="date" required />
+              <Label htmlFor="preferredDate">Preferred Date</Label>
+              <Input id="preferredDate" name="preferredDate" type="date" required />
             </div>
             <div className="space-y-1.5">
-              <Label htmlFor="time">Preferred Time</Label>
-              <Input id="time" type="time" required />
+              <Label htmlFor="preferredTime">Preferred Time</Label>
+              <Input id="preferredTime" name="preferredTime" type="time" required />
             </div>
 
             <div className="space-y-1.5 sm:col-span-2">
               <Label htmlFor="budget">Estimated Budget (KES)</Label>
-              <Input id="budget" placeholder="e.g. 500,000" />
+              <Input id="budget" name="budget" placeholder="e.g. 500,000" />
             </div>
 
             <div className="space-y-1.5 sm:col-span-2">
               <Label htmlFor="description">Tell us about your project</Label>
-              <Textarea id="description" rows={4} placeholder="Describe your space, style preferences and goals..." />
+              <Textarea id="description" name="description" rows={4} placeholder="Describe your space, style preferences and goals..." />
             </div>
 
             <div className="space-y-1.5 sm:col-span-2">
@@ -175,12 +169,21 @@ export default function BookConsultationPage() {
               >
                 <Upload className="h-4 w-4" /> Click to upload files
               </label>
-              <input id="images" type="file" multiple className="sr-only" />
+              <input
+                id="images"
+                name="images"
+                type="file"
+                multiple
+                accept="image/png,image/jpeg,image/webp,image/gif"
+                className="sr-only"
+              />
             </div>
           </div>
 
-          <Button type="submit" size="lg" className="mt-6 h-12 w-full">
-            Submit Consultation Request
+          {state.error && <p className="mt-4 text-sm text-destructive">{state.error}</p>}
+
+          <Button type="submit" size="lg" className="mt-6 h-12 w-full" disabled={pending}>
+            {pending ? "Submitting..." : "Submit Consultation Request"}
           </Button>
         </form>
       </div>

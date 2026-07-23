@@ -15,21 +15,17 @@ export interface UpdateRoleState {
   success?: boolean;
 }
 
-export async function updateUserRoleAction(
-  userId: string,
-  _prevState: UpdateRoleState,
-  formData: FormData
-): Promise<UpdateRoleState> {
+export async function updateUserRoleAction(userId: string, role: string): Promise<UpdateRoleState> {
   const currentUser = await getCurrentUser();
-  const role = currentUser?.role;
-  if (!role || !canManageUsers(role)) {
+  const currentUserRole = currentUser?.role;
+  if (!currentUserRole || !canManageUsers(currentUserRole)) {
     return { error: "You don't have permission to manage user roles." };
   }
   if (currentUser?.id === userId) {
     return { error: "You can't change your own role." };
   }
 
-  const parsed = updateRoleSchema.safeParse({ role: formData.get("role") });
+  const parsed = updateRoleSchema.safeParse({ role });
   if (!parsed.success) return { error: "Invalid role" };
 
   await db.user.update({ where: { id: userId }, data: { role: parsed.data.role } });

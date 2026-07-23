@@ -16,6 +16,7 @@ import {
   Image as ImageIcon,
   Settings,
   Mail,
+  CalendarCheck,
 } from "lucide-react";
 import { signOutAction } from "@/lib/actions/auth-actions";
 import { cn } from "@/lib/utils";
@@ -25,6 +26,7 @@ export const NAV_ITEMS = [
   { href: "/admin/products", label: "Products", icon: Package },
   { href: "/admin/categories", label: "Categories", icon: FolderTree },
   { href: "/admin/orders", label: "Orders", icon: ShoppingCart },
+  { href: "/admin/consultations", label: "Consultations", icon: CalendarCheck },
   { href: "/admin/messages", label: "Messages", icon: Mail },
   { href: "/admin/customers", label: "Customers", icon: Users },
   { href: "/admin/homepage", label: "Homepage", icon: ImageIcon },
