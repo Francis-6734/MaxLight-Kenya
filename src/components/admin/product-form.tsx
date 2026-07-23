@@ -23,6 +23,8 @@ export interface ProductFormValues {
   brand: string;
   price: number;
   compareAtPrice: number | null;
+  rating: number;
+  reviewCount: number;
   rooms: string[];
   styles: string[];
   highlights: string;
@@ -121,6 +123,33 @@ export function ProductForm({
           <Label htmlFor="compareAtPrice">Compare-at Price (optional)</Label>
           <Input id="compareAtPrice" name="compareAtPrice" type="number" min={1} defaultValue={initialValues?.compareAtPrice ?? ""} />
         </div>
+
+        <div className="space-y-1.5">
+          <Label htmlFor="rating">Rating (0–5)</Label>
+          <Input
+            id="rating"
+            name="rating"
+            type="number"
+            min={0}
+            max={5}
+            step={0.1}
+            required
+            defaultValue={initialValues?.rating ?? 4.5}
+          />
+        </div>
+        <div className="space-y-1.5">
+          <Label htmlFor="reviewCount">Review Count</Label>
+          <Input
+            id="reviewCount"
+            name="reviewCount"
+            type="number"
+            min={0}
+            step={1}
+            required
+            defaultValue={initialValues?.reviewCount ?? 0}
+          />
+        </div>
+
         <div className="space-y-1.5">
           <Label htmlFor="placeholderIcon">Icon (lucide-react name)</Label>
           <Input id="placeholderIcon" name="placeholderIcon" required defaultValue={initialValues?.placeholderIcon} placeholder="e.g. Lightbulb" />

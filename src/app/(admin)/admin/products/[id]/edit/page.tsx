@@ -32,6 +32,8 @@ export default async function EditProductPage({ params }: { params: Promise<{ id
             brand: product.brand,
             price: product.price,
             compareAtPrice: product.compareAtPrice,
+            rating: product.rating,
+            reviewCount: product.reviewCount,
             rooms: product.rooms ? product.rooms.split(",").filter(Boolean) : [],
             styles: product.styles ? product.styles.split(",").filter(Boolean) : [],
             highlights: product.highlights,

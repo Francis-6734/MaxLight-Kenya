@@ -272,3 +272,22 @@ model ContactMessage {
   read      Boolean  @default(false)
   createdAt DateTime @default(now())
 }
+
+/// Submissions from the "Book a Free Consultation" page. Status tracks the
+/// designer team's follow-up, unlike ContactMessage's plain read/unread.
+model ConsultationRequest {
+  id               String   @id @default(cuid())
+  name             String
+  phone            String
+  email            String
+  location         String
+  consultationType String
+  projectType      String
+  preferredDate    String
+  preferredTime    String
+  budget           String   @default("")
+  description      String   @default("")
+  imageUrls        String[] @default([])
+  status           String   @default("PENDING")
+  createdAt        DateTime @default(now())
+}
