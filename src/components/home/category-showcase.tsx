@@ -43,6 +43,7 @@ export function CategoryShowcase({
                     gradient={cat.gradient}
                     icon={cat.icon}
                     image={cat.imageUrl}
+                    alt={cat.name}
                     className="transition-transform duration-500 group-hover:scale-105"
                     iconClassName="hidden"
                   />

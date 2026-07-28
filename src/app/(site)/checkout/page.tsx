@@ -147,7 +147,7 @@ export default function CheckoutPage() {
             {resolvedLines.map(({ product, quantity }) => (
               <div key={product.id} className="flex gap-3">
                 <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-md">
-                  <ImagePlaceholder gradient={product.placeholder.gradient} icon={product.placeholder.icon} image={product.imageUrl} />
+                  <ImagePlaceholder gradient={product.placeholder.gradient} icon={product.placeholder.icon} image={product.imageUrl} alt={product.name} />
                 </div>
                 <div className="flex flex-1 items-center justify-between text-sm">
                   <div>

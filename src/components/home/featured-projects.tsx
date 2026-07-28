@@ -42,6 +42,7 @@ export function FeaturedProjects({
                     gradient={project.gradient}
                     icon={project.icon}
                     image={project.imageUrl}
+                    alt={project.title}
                     className="transition-transform duration-500 group-hover:scale-105"
                     iconClassName="hidden"
                   />

@@ -162,6 +162,7 @@ function StylePanel({ onNavigate }: { onNavigate: () => void }) {
               ][i % 5]
             }
             icon="Palette"
+            alt={style.name}
             className="absolute inset-0 transition-transform duration-300 group-hover:scale-105"
             iconClassName="hidden"
           />

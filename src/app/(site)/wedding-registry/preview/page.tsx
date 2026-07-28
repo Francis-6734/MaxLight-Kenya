@@ -92,7 +92,7 @@ export default function WeddingRegistryPreviewPage() {
           return (
             <div key={product.id} className="flex flex-col">
               <div className="relative aspect-square overflow-hidden rounded-xl bg-muted">
-                <ImagePlaceholder gradient={product.placeholder.gradient} icon={product.placeholder.icon} image={product.imageUrl} />
+                <ImagePlaceholder gradient={product.placeholder.gradient} icon={product.placeholder.icon} image={product.imageUrl} alt={product.name} />
                 {isPurchased && (
                   <div className="absolute inset-0 flex items-center justify-center bg-black/40">
                     <span className="flex items-center gap-1.5 rounded-full bg-white px-3 py-1.5 text-xs font-medium">

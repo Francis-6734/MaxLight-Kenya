@@ -5,10 +5,12 @@ import { ArrowRight } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { services } from "@/lib/data";
 import { cn } from "@/lib/utils";
+import { SITE_URL } from "@/lib/site-url";
 
 export const metadata: Metadata = {
   title: "Services",
   description: "Interior design, lighting design, installation, renovation and smart home services from MaxLight Kenya.",
+  alternates: { canonical: `${SITE_URL}/services` },
 };
 
 export default function ServicesPage() {

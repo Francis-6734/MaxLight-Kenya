@@ -28,7 +28,7 @@ export function ImageUploadField({
             // eslint-disable-next-line @next/next/no-img-element -- local blob preview / already-uploaded file served from public/uploads, not an optimizable static asset
             <img src={preview} alt="" className="h-full w-full object-cover" />
           ) : (
-            <ImagePlaceholder gradient={gradient} icon={icon} iconClassName="h-6 w-6" />
+            <ImagePlaceholder gradient={gradient} icon={icon} alt={label} iconClassName="h-6 w-6" />
           )}
         </div>
         <div className="flex-1 space-y-1.5">

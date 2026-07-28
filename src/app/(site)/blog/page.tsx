@@ -3,10 +3,12 @@ import type { Metadata } from "next";
 import { Calendar, Clock } from "lucide-react";
 import { ImagePlaceholder } from "@/components/ui/image-placeholder";
 import { db } from "@/lib/db";
+import { SITE_URL } from "@/lib/site-url";
 
 export const metadata: Metadata = {
   title: "Blog",
   description: "Interior tips, lighting guides and design inspiration from the MaxLight Kenya team.",
+  alternates: { canonical: `${SITE_URL}/blog` },
 };
 
 export default async function BlogPage() {
@@ -30,6 +32,7 @@ export default async function BlogPage() {
                 gradient={post.gradient}
                 icon={post.icon}
                 image={post.imageUrl}
+                alt={post.title}
                 className="transition-transform duration-500 group-hover:scale-105"
               />
             </div>

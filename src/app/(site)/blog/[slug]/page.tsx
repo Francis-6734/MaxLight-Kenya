@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { Calendar, Clock, User } from "lucide-react";
 import { ImagePlaceholder } from "@/components/ui/image-placeholder";
 import { db } from "@/lib/db";
+import { SITE_URL } from "@/lib/site-url";
 
 export async function generateMetadata({
   params,
@@ -13,7 +14,22 @@ export async function generateMetadata({
   const { slug } = await params;
   const post = await db.blogPost.findUnique({ where: { slug } });
   if (!post) return {};
-  return { title: post.title, description: post.excerpt };
+  const image = post.imageUrl ?? "/logo-full.jpg";
+  return {
+    title: post.title,
+    description: post.excerpt,
+    alternates: { canonical: `${SITE_URL}/blog/${slug}` },
+    openGraph: {
+      type: "article",
+      title: post.title,
+      description: post.excerpt,
+      url: `${SITE_URL}/blog/${slug}`,
+      publishedTime: post.createdAt.toISOString(),
+      authors: [post.author],
+      images: [{ url: image, alt: post.title }],
+    },
+    twitter: { card: "summary_large_image", title: post.title, description: post.excerpt, images: [image] },
+  };
 }
 
 export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -53,7 +69,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         </div>
 
         <div className="relative mt-8 aspect-[16/9] overflow-hidden rounded-2xl">
-          <ImagePlaceholder gradient={post.gradient} icon={post.icon} image={post.imageUrl} iconClassName="h-10 w-10" />
+          <ImagePlaceholder gradient={post.gradient} icon={post.icon} image={post.imageUrl} alt={post.title} iconClassName="h-10 w-10" />
         </div>
 
         <div className="prose prose-neutral mt-8 max-w-none space-y-5 text-[1.05rem] leading-relaxed text-foreground/90">
@@ -74,6 +90,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                     gradient={p.gradient}
                     icon={p.icon}
                     image={p.imageUrl}
+                    alt={p.title}
                     className="transition-transform duration-500 group-hover:scale-105"
                   />
                 </div>

@@ -59,7 +59,7 @@ export function CartDrawer() {
                     href={`/product/${product.slug}`}
                     className="relative h-20 w-20 shrink-0 overflow-hidden rounded-md"
                   >
-                    <ImagePlaceholder gradient={product.placeholder.gradient} icon={product.placeholder.icon} image={product.imageUrl} />
+                    <ImagePlaceholder gradient={product.placeholder.gradient} icon={product.placeholder.icon} image={product.imageUrl} alt={product.name} />
                   </Link>
                   <div className="flex flex-1 flex-col justify-between">
                     <div>

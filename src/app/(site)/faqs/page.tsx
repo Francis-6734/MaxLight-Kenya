@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { SITE_URL } from "@/lib/site-url";
 
 export const metadata: Metadata = {
   title: "FAQs",
   description: "Frequently asked questions about shopping, delivery, installation and payments at MaxLight Kenya.",
+  alternates: { canonical: `${SITE_URL}/faqs` },
 };
 
 const faqs = [

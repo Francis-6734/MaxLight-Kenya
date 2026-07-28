@@ -6,6 +6,7 @@ import { ImagePlaceholder } from "@/components/ui/image-placeholder";
 import { buttonVariants } from "@/components/ui/button";
 import { db } from "@/lib/db";
 import { cn } from "@/lib/utils";
+import { SITE_URL } from "@/lib/site-url";
 
 export async function generateMetadata({
   params,
@@ -15,7 +16,21 @@ export async function generateMetadata({
   const { slug } = await params;
   const project = await db.project.findUnique({ where: { slug } });
   if (!project) return {};
-  return { title: project.title, description: `${project.category} project in ${project.location}.` };
+  const description = `${project.category} project in ${project.location}.`;
+  const image = project.imageUrl ?? "/logo-full.jpg";
+  return {
+    title: project.title,
+    description,
+    alternates: { canonical: `${SITE_URL}/projects/${slug}` },
+    openGraph: {
+      type: "website",
+      title: project.title,
+      description,
+      url: `${SITE_URL}/projects/${slug}`,
+      images: [{ url: image, alt: project.title }],
+    },
+    twitter: { card: "summary_large_image", title: project.title, description, images: [image] },
+  };
 }
 
 export default async function ProjectDetailPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -51,13 +66,13 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
 
       <div className="mt-8 grid gap-3 sm:grid-cols-3">
         <div className="relative aspect-[4/3] overflow-hidden rounded-2xl sm:col-span-2 sm:row-span-2 sm:aspect-auto sm:h-full">
-          <ImagePlaceholder gradient={project.gradient} icon={project.icon} image={project.imageUrl} iconClassName="h-12 w-12" />
+          <ImagePlaceholder gradient={project.gradient} icon={project.icon} image={project.imageUrl} alt={project.title} iconClassName="h-12 w-12" />
         </div>
         <div className="relative aspect-[4/3] overflow-hidden rounded-2xl">
-          <ImagePlaceholder gradient={project.gradient} icon={project.icon} image={project.imageUrl} />
+          <ImagePlaceholder gradient={project.gradient} icon={project.icon} image={project.imageUrl} alt={`${project.title} — detail view`} />
         </div>
         <div className="relative aspect-[4/3] overflow-hidden rounded-2xl">
-          <ImagePlaceholder gradient={project.gradient} icon={project.icon} image={project.imageUrl} />
+          <ImagePlaceholder gradient={project.gradient} icon={project.icon} image={project.imageUrl} alt={`${project.title} — detail view`} />
         </div>
       </div>
 

@@ -3,10 +3,12 @@ import type { Metadata } from "next";
 import { MapPin } from "lucide-react";
 import { ImagePlaceholder } from "@/components/ui/image-placeholder";
 import { db } from "@/lib/db";
+import { SITE_URL } from "@/lib/site-url";
 
 export const metadata: Metadata = {
   title: "Projects",
   description: "Explore MaxLight Kenya's portfolio of luxury homes, hotels, restaurants, offices and more.",
+  alternates: { canonical: `${SITE_URL}/projects` },
 };
 
 export default async function ProjectsPage() {
@@ -30,6 +32,7 @@ export default async function ProjectsPage() {
                 gradient={project.gradient}
                 icon={project.icon}
                 image={project.imageUrl}
+                alt={project.title}
                 className="transition-transform duration-500 group-hover:scale-105"
                 iconClassName="hidden"
               />

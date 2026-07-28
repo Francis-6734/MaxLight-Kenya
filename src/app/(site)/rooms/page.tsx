@@ -2,11 +2,13 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { ImagePlaceholder } from "@/components/ui/image-placeholder";
 import { inspirationRooms } from "@/lib/data";
+import { SITE_URL } from "@/lib/site-url";
 
 export const metadata: Metadata = {
   title: "Inspiration Hub",
   description:
     "Browse complete room designs from MaxLight Kenya. Every item is tagged — shop the whole look in one click.",
+  alternates: { canonical: `${SITE_URL}/rooms` },
 };
 
 export default function RoomsPage() {
@@ -28,6 +30,7 @@ export default function RoomsPage() {
               <ImagePlaceholder
                 gradient={room.placeholder.gradient}
                 icon={room.placeholder.icon}
+                alt={room.title}
                 className="transition-transform duration-500 group-hover:scale-105"
                 iconClassName="hidden"
               />

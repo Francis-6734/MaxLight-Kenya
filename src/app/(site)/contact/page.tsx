@@ -2,10 +2,12 @@ import type { Metadata } from "next";
 import { MapPin, Phone, Mail, Clock } from "lucide-react";
 import { ContactForm } from "@/components/contact/contact-form";
 import { ImagePlaceholder } from "@/components/ui/image-placeholder";
+import { SITE_URL } from "@/lib/site-url";
 
 export const metadata: Metadata = {
   title: "Contact Us",
   description: "Get in touch with MaxLight Kenya — visit our showroom, call, email or send us a message.",
+  alternates: { canonical: `${SITE_URL}/contact` },
 };
 
 const info = [
@@ -34,7 +36,7 @@ export default function ContactPage() {
       <div className="mt-12 grid gap-10 lg:grid-cols-[1fr_1.1fr]">
         <div className="space-y-6">
           <div className="relative aspect-[4/3] overflow-hidden rounded-2xl">
-            <ImagePlaceholder gradient="from-emerald-100 via-stone-50 to-white" icon="MapPin" />
+            <ImagePlaceholder gradient="from-emerald-100 via-stone-50 to-white" icon="MapPin" alt="MaxLight Kenya showroom" />
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
             {info.map((i) => (

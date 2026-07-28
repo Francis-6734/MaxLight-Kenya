@@ -27,6 +27,7 @@ export function ProductCard({ product, className }: { product: Product; classNam
             gradient={product.placeholder.gradient}
             icon={product.placeholder.icon}
             image={product.imageUrl}
+            alt={product.name}
             className="transition-transform duration-500 group-hover:scale-105"
           />
         </Link>

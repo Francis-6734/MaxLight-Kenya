@@ -45,7 +45,7 @@ export function Hero({ slides }: { slides: HeroSlideData[] }) {
           transition={{ duration: 1.1, ease: "easeInOut" }}
           className="absolute inset-0"
         >
-          <ImagePlaceholder gradient={slide.gradient} icon={slide.icon} image={slide.imageUrl} iconClassName="opacity-40" />
+          <ImagePlaceholder gradient={slide.gradient} icon={slide.icon} image={slide.imageUrl} alt={slide.headline} iconClassName="opacity-40" />
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/30" />
         </motion.div>
       </AnimatePresence>

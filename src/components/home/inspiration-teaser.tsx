@@ -24,6 +24,7 @@ export function InspirationTeaser({ heading }: { heading: { eyebrow: string; tit
                 <ImagePlaceholder
                   gradient={room.placeholder.gradient}
                   icon={room.placeholder.icon}
+                  alt={room.title}
                   className="transition-transform duration-500 group-hover:scale-105"
                   iconClassName="hidden"
                 />

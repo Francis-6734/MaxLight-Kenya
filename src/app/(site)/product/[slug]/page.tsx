@@ -16,6 +16,8 @@ import { ProductActions } from "@/components/product/product-actions";
 import { ProductCard } from "@/components/product/product-card";
 import { getClientProductBySlug, getRelatedClientProducts, getClientCategories } from "@/lib/catalog";
 import { formatKES, slugToLabel } from "@/lib/format";
+import { SITE_URL } from "@/lib/site-url";
+import { JsonLd } from "@/components/seo/json-ld";
 
 export const dynamic = "force-dynamic";
 
@@ -27,9 +29,24 @@ export async function generateMetadata({
   const { slug } = await params;
   const product = await getClientProductBySlug(slug);
   if (!product) return {};
+  const image = product.imageUrl ?? "/logo-full.jpg";
   return {
     title: product.name,
     description: product.description,
+    alternates: { canonical: `${SITE_URL}/product/${slug}` },
+    openGraph: {
+      type: "website",
+      title: product.name,
+      description: product.description,
+      url: `${SITE_URL}/product/${slug}`,
+      images: [{ url: image, alt: product.name }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: product.name,
+      description: product.description,
+      images: [image],
+    },
   };
 }
 
@@ -42,8 +59,49 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
   const category = categories.find((c) => c.slug === product.category);
   const onSale = product.compareAtPrice && product.compareAtPrice > product.price;
 
+  const productJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: product.name,
+    description: product.description,
+    image: product.images && product.images.length > 0 ? product.images : product.imageUrl ? [product.imageUrl] : undefined,
+    sku: product.id,
+    brand: { "@type": "Brand", name: product.brand },
+    offers: {
+      "@type": "Offer",
+      url: `${SITE_URL}/product/${slug}`,
+      priceCurrency: "KES",
+      price: product.price,
+      availability: product.inStock ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
+    },
+    ...(product.reviewCount > 0 && product.rating > 0
+      ? {
+          aggregateRating: {
+            "@type": "AggregateRating",
+            ratingValue: product.rating,
+            reviewCount: product.reviewCount,
+          },
+        }
+      : {}),
+  };
+
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
+      { "@type": "ListItem", position: 2, name: "Shop", item: `${SITE_URL}/shop` },
+      ...(category
+        ? [{ "@type": "ListItem", position: 3, name: category.name, item: `${SITE_URL}/shop?category=${product.category}` }]
+        : []),
+      { "@type": "ListItem", position: category ? 4 : 3, name: product.name, item: `${SITE_URL}/product/${slug}` },
+    ],
+  };
+
   return (
     <div className="container-max py-8">
+      <JsonLd data={productJsonLd} />
+      <JsonLd data={breadcrumbJsonLd} />
       <Breadcrumb className="mb-6">
         <BreadcrumbList>
           <BreadcrumbItem>

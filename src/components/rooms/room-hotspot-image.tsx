@@ -21,7 +21,7 @@ export function RoomHotspotImage({
 
   return (
     <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl bg-muted">
-      <ImagePlaceholder gradient={room.placeholder.gradient} icon={room.placeholder.icon} iconClassName="h-10 w-10" />
+      <ImagePlaceholder gradient={room.placeholder.gradient} icon={room.placeholder.icon} alt={room.title} iconClassName="h-10 w-10" />
 
       {room.hotspots.map((h) => {
         const product = products[h.productId];
@@ -55,7 +55,7 @@ export function RoomHotspotImage({
               >
                 <div className="flex gap-3">
                   <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-md">
-                    <ImagePlaceholder gradient={product.placeholder.gradient} icon={product.placeholder.icon} image={product.imageUrl} />
+                    <ImagePlaceholder gradient={product.placeholder.gradient} icon={product.placeholder.icon} image={product.imageUrl} alt={product.name} />
                   </div>
                   <div className="min-w-0">
                     <p className="line-clamp-2 text-xs font-medium text-foreground">{product.name}</p>

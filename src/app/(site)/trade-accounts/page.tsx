@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import { Percent, Truck, UserCog, LayoutDashboard, FileText, History } from "lucide-react";
 import { TradeSignupForm } from "@/components/trade/trade-signup-form";
+import { SITE_URL } from "@/lib/site-url";
 
 export const metadata: Metadata = {
   title: "Trade Accounts",
   description:
     "Dedicated business accounts for architects, interior designers, contractors, developers and hotels — with special pricing and a dedicated account manager.",
+  alternates: { canonical: `${SITE_URL}/trade-accounts` },
 };
 
 const benefits = [

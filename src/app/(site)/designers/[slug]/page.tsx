@@ -6,6 +6,7 @@ import { ImagePlaceholder } from "@/components/ui/image-placeholder";
 import { buttonVariants } from "@/components/ui/button";
 import { db } from "@/lib/db";
 import { cn } from "@/lib/utils";
+import { SITE_URL } from "@/lib/site-url";
 
 export async function generateMetadata({
   params,
@@ -15,7 +16,21 @@ export async function generateMetadata({
   const { slug } = await params;
   const designer = await db.designer.findUnique({ where: { slug } });
   if (!designer) return {};
-  return { title: designer.name, description: `${designer.position} at MaxLight Kenya.` };
+  const description = `${designer.position} at MaxLight Kenya.`;
+  const image = designer.imageUrl ?? "/logo-full.jpg";
+  return {
+    title: designer.name,
+    description,
+    alternates: { canonical: `${SITE_URL}/designers/${slug}` },
+    openGraph: {
+      type: "profile",
+      title: designer.name,
+      description,
+      url: `${SITE_URL}/designers/${slug}`,
+      images: [{ url: image, alt: designer.name }],
+    },
+    twitter: { card: "summary_large_image", title: designer.name, description, images: [image] },
+  };
 }
 
 export default async function DesignerDetailPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -37,7 +52,7 @@ export default async function DesignerDetailPage({ params }: { params: Promise<{
       <div className="mt-6 grid gap-10 lg:grid-cols-[280px_1fr]">
         <div>
           <div className="relative aspect-square w-full overflow-hidden rounded-2xl">
-            <ImagePlaceholder gradient={designer.gradient} icon={designer.icon} image={designer.imageUrl} iconClassName="h-10 w-10" />
+            <ImagePlaceholder gradient={designer.gradient} icon={designer.icon} image={designer.imageUrl} alt={designer.name} iconClassName="h-10 w-10" />
           </div>
           <div className="mt-5 space-y-3 text-sm">
             <div className="flex items-center gap-2">

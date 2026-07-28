@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Briefcase, Mail } from "lucide-react";
+import { SITE_URL } from "@/lib/site-url";
 
-export const metadata: Metadata = { title: "Careers" };
+export const metadata: Metadata = { title: "Careers", alternates: { canonical: `${SITE_URL}/careers` } };
 
 const openRoles = [
   { title: "Interior Designer", type: "Full-time", location: "Nairobi" },

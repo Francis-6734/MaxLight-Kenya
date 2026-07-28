@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { LegalPage } from "@/components/legal/legal-page";
+import { SITE_URL } from "@/lib/site-url";
 
-export const metadata: Metadata = { title: "Delivery Information" };
+export const metadata: Metadata = { title: "Delivery Information", alternates: { canonical: `${SITE_URL}/delivery` } };
 
 export default function DeliveryPage() {
   return (

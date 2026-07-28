@@ -37,7 +37,7 @@ export default function CartPage() {
           {resolvedLines.map(({ product, quantity }) => (
             <div key={product.id} className="flex gap-4 py-5">
               <Link href={`/product/${product.slug}`} className="relative h-24 w-24 shrink-0 overflow-hidden rounded-lg">
-                <ImagePlaceholder gradient={product.placeholder.gradient} icon={product.placeholder.icon} image={product.imageUrl} />
+                <ImagePlaceholder gradient={product.placeholder.gradient} icon={product.placeholder.icon} image={product.imageUrl} alt={product.name} />
               </Link>
               <div className="flex flex-1 flex-col justify-between">
                 <div className="flex items-start justify-between gap-4">

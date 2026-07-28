@@ -94,7 +94,7 @@ export function SearchOverlay() {
                     className="flex items-center gap-3 rounded-lg p-2 hover:bg-muted"
                   >
                     <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-md">
-                      <ImagePlaceholder gradient={product.placeholder.gradient} icon={product.placeholder.icon} image={product.imageUrl} />
+                      <ImagePlaceholder gradient={product.placeholder.gradient} icon={product.placeholder.icon} image={product.imageUrl} alt={product.name} />
                     </div>
                     <div className="min-w-0 flex-1">
                       <p className="line-clamp-1 text-sm font-medium">{product.name}</p>

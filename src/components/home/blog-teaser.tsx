@@ -43,6 +43,7 @@ export function BlogTeaser({
                   gradient={post.gradient}
                   icon={post.icon}
                   image={post.imageUrl}
+                  alt={post.title}
                   className="transition-transform duration-500 group-hover:scale-105"
                 />
               </div>

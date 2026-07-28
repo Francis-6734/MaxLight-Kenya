@@ -50,7 +50,7 @@ export default function ComparePage() {
                       <X className="h-3.5 w-3.5" />
                     </button>
                     <div className="relative aspect-square overflow-hidden rounded-xl">
-                      <ImagePlaceholder gradient={p.placeholder.gradient} icon={p.placeholder.icon} image={p.imageUrl} />
+                      <ImagePlaceholder gradient={p.placeholder.gradient} icon={p.placeholder.icon} image={p.imageUrl} alt={p.name} />
                     </div>
                     <Link href={`/product/${p.slug}`} className="mt-2 block text-sm font-medium hover:underline">
                       {p.name}

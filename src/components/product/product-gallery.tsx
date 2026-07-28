@@ -20,7 +20,7 @@ export function ProductGallery({
   return (
     <div>
       <div className="relative aspect-square overflow-hidden rounded-2xl bg-muted">
-        <ImagePlaceholder gradient={placeholder.gradient} icon={placeholder.icon} image={activeImage} iconClassName="h-10 w-10" />
+        <ImagePlaceholder gradient={placeholder.gradient} icon={placeholder.icon} image={activeImage} alt={name} iconClassName="h-10 w-10" />
       </div>
       {images.length > 1 && (
         <div className="mt-3 grid grid-cols-4 gap-3">
@@ -43,7 +43,7 @@ export function ProductGallery({
                     !isActive && "scale-125 hover:scale-110"
                   )}
                 >
-                  <ImagePlaceholder gradient={placeholder.gradient} icon={placeholder.icon} image={image} iconClassName="h-4 w-4" />
+                  <ImagePlaceholder gradient={placeholder.gradient} icon={placeholder.icon} image={image} alt={`${name} — photo ${i + 1}`} iconClassName="h-4 w-4" />
                 </div>
               </button>
             );

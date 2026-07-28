@@ -49,7 +49,7 @@ export function MultiImageUploadField({
 
         {kept.length === 0 && newPreviews.length === 0 && (
           <div className="h-20 w-20 shrink-0 overflow-hidden rounded-lg border border-dashed border-border">
-            <ImagePlaceholder gradient={gradient} icon={icon} iconClassName="h-6 w-6" />
+            <ImagePlaceholder gradient={gradient} icon={icon} alt={label} iconClassName="h-6 w-6" />
           </div>
         )}
       </div>

@@ -46,7 +46,7 @@ export function ProductPalette({ onAdd }: { onAdd: (product: Product) => void })
             className="group flex flex-col overflow-hidden rounded-lg border border-border text-left hover:border-foreground/30"
           >
             <div className="relative aspect-square">
-              <ImagePlaceholder gradient={product.placeholder.gradient} icon={product.placeholder.icon} image={product.imageUrl} iconClassName="h-5 w-5" />
+              <ImagePlaceholder gradient={product.placeholder.gradient} icon={product.placeholder.icon} image={product.imageUrl} alt={product.name} iconClassName="h-5 w-5" />
             </div>
             <p className="line-clamp-1 px-2 py-1.5 text-xs">{product.name}</p>
           </button>

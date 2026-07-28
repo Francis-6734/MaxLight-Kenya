@@ -9,6 +9,8 @@ interface ImagePlaceholderProps {
   icon: string;
   /** Uploaded photo URL — when present, renders this instead of the gradient/icon stand-in. */
   image?: string | null;
+  /** Describes what the photo shows (e.g. the product or category name) — read by screen readers and indexed by image search. */
+  alt: string;
   className?: string;
   iconClassName?: string;
 }
@@ -18,13 +20,13 @@ interface ImagePlaceholderProps {
  * brand-consistent gradient field with a centred glyph for catalog/content
  * items that don't have photography uploaded yet.
  */
-export function ImagePlaceholder({ gradient, icon, image, className, iconClassName }: ImagePlaceholderProps) {
+export function ImagePlaceholder({ gradient, icon, image, alt, className, iconClassName }: ImagePlaceholderProps) {
   const LucideIcon = (Icons[icon as IconName] as Icons.LucideIcon) ?? Icons.Image;
 
   if (image) {
     return (
       <div className={cn("relative h-full w-full overflow-hidden", className)}>
-        <Image src={image} alt="" fill sizes="(max-width: 768px) 50vw, 25vw" className="object-cover" />
+        <Image src={image} alt={alt} fill sizes="(max-width: 768px) 50vw, 25vw" className="object-cover" />
       </div>
     );
   }

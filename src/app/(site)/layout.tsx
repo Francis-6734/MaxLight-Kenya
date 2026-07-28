@@ -17,6 +17,8 @@ import { getSiteSettings } from "@/lib/site-settings";
 import { getClientCategoriesWithSubcategories } from "@/lib/catalog";
 import { getCurrentUser } from "@/lib/auth/current-user";
 import { db } from "@/lib/db";
+import { SITE_URL } from "@/lib/site-url";
+import { JsonLd } from "@/components/seo/json-ld";
 
 // Every page under this layout reads live content from the database (site
 // settings, footer links, blog/projects/designers, homepage sections). Without
@@ -44,13 +46,27 @@ const geistMono = Geist_Mono({
 
 export async function generateMetadata(): Promise<Metadata> {
   const settings = await getSiteSettings();
+  const titleTemplate = { default: settings.seoTitle, template: `%s | ${settings.siteName}` };
+
   return {
-    title: {
-      default: settings.seoTitle,
-      template: `%s | ${settings.siteName}`,
-    },
+    metadataBase: new URL(SITE_URL),
+    title: titleTemplate,
     description: settings.seoDescription,
     keywords: settings.seoKeywords.split(",").map((k) => k.trim()).filter(Boolean),
+    openGraph: {
+      type: "website",
+      siteName: settings.siteName,
+      title: titleTemplate,
+      description: settings.seoDescription,
+      url: SITE_URL,
+      images: [{ url: "/logo-full.jpg", width: 1200, height: 630, alt: settings.siteName }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: titleTemplate,
+      description: settings.seoDescription,
+      images: ["/logo-full.jpg"],
+    },
   };
 }
 
@@ -66,6 +82,28 @@ export default async function RootLayout({
     getCurrentUser(),
   ]);
 
+  const organizationJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "HomeAndConstructionBusiness",
+    name: settings.siteName,
+    description: settings.seoDescription,
+    url: SITE_URL,
+    logo: `${SITE_URL}/logo-icon.png`,
+    image: `${SITE_URL}/logo-full.jpg`,
+    telephone: settings.phone,
+    email: settings.email,
+    address: { "@type": "PostalAddress", streetAddress: settings.address, addressCountry: "KE" },
+    sameAs: [
+      settings.facebookUrl,
+      settings.instagramUrl,
+      settings.tiktokUrl,
+      settings.pinterestUrl,
+      settings.youtubeUrl,
+      settings.linkedinUrl,
+      settings.xUrl,
+    ].filter(Boolean),
+  };
+
   return (
     <html
       lang="en"
@@ -73,6 +111,7 @@ export default async function RootLayout({
       className={`${fraunces.variable} ${inter.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-background text-foreground">
+        <JsonLd data={organizationJsonLd} />
         <ProductCatalogProvider>
           <TooltipProvider delay={150}>
             <CartProvider>

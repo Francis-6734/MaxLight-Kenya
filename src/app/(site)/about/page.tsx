@@ -5,11 +5,13 @@ import { ImagePlaceholder } from "@/components/ui/image-placeholder";
 import { buttonVariants } from "@/components/ui/button";
 import { db } from "@/lib/db";
 import { cn } from "@/lib/utils";
+import { SITE_URL } from "@/lib/site-url";
 
 export const metadata: Metadata = {
   title: "About Us",
   description:
     "MaxLight Kenya is East Africa's complete Home Interior Company — products, installation, consultation and design, all under one roof.",
+  alternates: { canonical: `${SITE_URL}/about` },
 };
 
 const values = [
@@ -73,7 +75,7 @@ export default async function AboutPage() {
           {designers.map((d) => (
             <Link key={d.id} href={`/designers/${d.slug}`} className="group text-center">
               <div className="relative mx-auto aspect-square w-full max-w-40 overflow-hidden rounded-full">
-                <ImagePlaceholder gradient={d.gradient} icon={d.icon} image={d.imageUrl} />
+                <ImagePlaceholder gradient={d.gradient} icon={d.icon} image={d.imageUrl} alt={d.name} />
               </div>
               <p className="mt-4 font-medium group-hover:underline">{d.name}</p>
               <p className="text-sm text-gold">{d.position}</p>

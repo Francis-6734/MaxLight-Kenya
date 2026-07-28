@@ -2,10 +2,12 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { ImagePlaceholder } from "@/components/ui/image-placeholder";
 import { db } from "@/lib/db";
+import { SITE_URL } from "@/lib/site-url";
 
 export const metadata: Metadata = {
   title: "Our Designers",
   description: "Meet the interior designers, lighting specialists and project managers behind MaxLight Kenya.",
+  alternates: { canonical: `${SITE_URL}/designers` },
 };
 
 export default async function DesignersPage() {
@@ -25,7 +27,7 @@ export default async function DesignersPage() {
         {designers.map((d) => (
           <Link key={d.id} href={`/designers/${d.slug}`} className="group block text-center">
             <div className="relative mx-auto aspect-square w-full max-w-40 overflow-hidden rounded-full">
-              <ImagePlaceholder gradient={d.gradient} icon={d.icon} image={d.imageUrl} />
+              <ImagePlaceholder gradient={d.gradient} icon={d.icon} image={d.imageUrl} alt={d.name} />
             </div>
             <p className="mt-4 font-medium group-hover:underline">{d.name}</p>
             <p className="text-sm text-gold">{d.position}</p>
